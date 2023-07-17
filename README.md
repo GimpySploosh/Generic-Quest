@@ -4,3 +4,5 @@
 Generic-Quest was created by James Ryan, Jacey Li, Marty Bernstine, (more names), and sponsered by Tufts Collage summer programs. 
 # What can you do with Generic-Quest?
 While Generic-Quest is an open source game. Parts of our code can be implemented into your designs, but please refrain from stealing the entire code. For example, you can take out character movement functions, but we wouldnt advise taking the item interaction or our peter griffin sprite. Thanks for your cooporation!
+# Gneric-Quest is A work in progress.
+Generic-Quest is currently a work in progress - and you can expect to see future updates, potentialy implementing new quests, npcs, and features.
