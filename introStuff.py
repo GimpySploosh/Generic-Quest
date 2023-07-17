@@ -1,3 +1,6 @@
+# to people editing this code - PLEASE USE CAMELCASE
+# I know most people in Python use snake_case, but deal with it
+
 import pygame
 
 SCALE = 1
@@ -16,8 +19,7 @@ clock = pygame.time.Clock()
 running = True
 dt = 0
 
-playerPos = pygame.Vector2(screen.get_width()/ 2, screen.get_height()/ 2)
-player = MySprite(playerImage, playerPos.x, playerPos.y, 25, 25)
+player = MySprite(playerImage, screen.get_width() / 2, screen.get_height() / 2, 100, 100)
 
 while running:
     for event in pygame.event.get():
@@ -28,26 +30,21 @@ while running:
 
     keys = pygame.key.get_pressed()
     if keys[pygame.K_w]:
-        playerPos.y -= 300 * dt * SCALE
+        player.rect.y -= 300 * dt * SCALE
     if keys[pygame.K_s]:
-        playerPos.y += 300 * dt * SCALE
+        player.rect.y += 300 * dt * SCALE
     if keys[pygame.K_a]:
-        playerPos.x -= 300 * dt * SCALE
+        player.rect.x -= 300 * dt * SCALE
     if keys[pygame.K_d]:
-        playerPos.x += 300 * dt * SCALE
+        player.rect.x += 300 * dt * SCALE
 
-    player.rect.centerx = playerPos.x
-    player.rect.centery = playerPos.y
+    player.rect.centerx = player.rect.x + player.rect.width / 2
+    player.rect.centery = player.rect.y + player.rect.height / 2
 
     screen.blit(player.image, player.rect)
 
     pygame.display.flip()
 
     dt = clock.tick(30) / 1000
-
-    """
-    pygame.display.set_caption(str(playerPos.y))
-    pygame.display.flip()
-    """
 
 pygame.quit()
