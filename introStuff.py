@@ -39,7 +39,7 @@ class MySprite(pygame.sprite.Sprite):
         
 background1 = MySprite(background1, 0, 0, 1)
 background2 = MySprite(background2, 0, 0, 1)
-background3 = MySprite(background3, 0, 0, 1)
+background3 = MySprite(background3, 0, 0, 6.5)
 
 # set/change rooms. All excusive sprites and backgrounds for that level will be generated here
 def roomSet(): 
@@ -60,7 +60,8 @@ def roomSet():
         screen.blit(background2.image, (0, 0))
     if roomNum == 2:
         screen.blit(background3.image, (0, 0))
-        door = MySprite(portal, 250, 240, 2.5)
+        door = MySprite(portal, 140, screen.get_height() - portal.get_height(), 2.5)
+        screen.blit(door.image, door.rect)
         if pygame.sprite.collide_rect(door,  player):
             roomNum = 0
     screen.blit(text, (screen.get_width() / 2, 20))
