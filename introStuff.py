@@ -35,7 +35,7 @@ class MySprite(pygame.sprite.Sprite):
         self.rect = self.image.get_rect(center=(x, y))
         
 door = MySprite(book, screen.get_width() / 4, screen.get_height() / 4, 0.03)
-background11 = MySprite(background1, 0, 0, 1)
+background1 = MySprite(background1, 0, 0, 1)
 
 
 # set/change rooms. All excusive sprites and backgrounds for that level will be generated here
@@ -46,7 +46,7 @@ def roomSet():
     if roomNum == 0:
         if pygame.sprite.collide_rect(door,  player):
             roomNum = 1
-        screen.blit(background11.image, (0, 0))
+        screen.blit(background1.image, (0, 0))
         screen.blit(door.image, door.rect)
     if roomNum == 1:
         screen.fill("green")
