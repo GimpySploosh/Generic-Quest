@@ -10,5 +10,5 @@ Gen enrolled in Suburbia University and studied a little to earn a degree in tax
  On another normal day at the tax firm, Gen walked into a room and never walked out. Gen was transported by her crazy coworker, Generic Wizard,  to a place full of tasks, each one less impressive than the last. Eventually, one day, Gen might be able to leave.
 # What can you do with Generic-Quest?
 While Generic-Quest is an open source game. Parts of our code can be implemented into your designs, but please refrain from using the entirity of our code. For example, you can take out character movement functions, but we would rather you didnt also include the item interaction and/or our peter griffin sprite. Thanks for your cooporation!
-# Gneric-Quest is A work in progress.
+# Generic-Quest is A work in progress.
 Generic-Quest is currently a work in progress and you can expect to see future updates, potentialy implementing new quests, npcs, and features at some point in the furure. Thank you for playing!
