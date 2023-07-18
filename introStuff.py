@@ -4,6 +4,16 @@
 import pygame
 
 SCALE = 0.7
+
+# pygame setup
+pygame.init()
+screen = pygame.display.set_mode((1280 * SCALE, 720 * SCALE))
+clock = pygame.time.Clock()
+running = True
+dt = 0
+
+roomNum = 0 # lowest room number is 0
+
 playerImage = pygame.image.load("placeholder.png")
 wizardImage = pygame.image.load("wizard.png")
 book = pygame.image.load("book.png")
@@ -19,12 +29,12 @@ class MySprite(pygame.sprite.Sprite):
         self.image = pygame.transform.scale(image, (width * SCALE, height * SCALE))
         self.rect = self.image.get_rect(center=(x, y))
 
-# pygame setup
-pygame.init()
-screen = pygame.display.set_mode((1280 * SCALE, 720 * SCALE))
-clock = pygame.time.Clock()
-running = True
-dt = 0
+def roomSet(): 
+    # ROOMS = ["start; 0", "roomName; roomNum"] 
+    # don't use the list above, just look at it for reference to figure out the genral room names
+    if roomNum == 0:
+        screen.fill("purple")
+        
 
 player = MySprite(playerImage, screen.get_width() / 2, screen.get_height() / 2, 100, 100)
 
@@ -33,7 +43,7 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
-    screen.fill("purple")
+    roomSet()
 
     keys = pygame.key.get_pressed()
     if keys[pygame.K_w]:
