@@ -3,7 +3,7 @@
 
 import pygame
 
-SCALE = 0.7
+SCALE = .7
 
 # pygame setup
 pygame.init()
@@ -12,6 +12,7 @@ screen = pygame.display.set_mode((1280 * SCALE, 720 * SCALE)) # aspect ratio: 16
 clock = pygame.time.Clock()
 running = True
 dt = 0
+item = "none"
 
 roomNum = 0 # lowest room number is 0
 
@@ -22,6 +23,7 @@ grass = pygame.image.load("grass.png")
 knot = pygame.image.load("knot.png")
 socks = pygame.image.load("socks.png")
 titleScreen = pygame.image.load("titleScreen.png")
+background1 = pygame.image.load("background.png")
 
 # sprite class. Set the image for it, xy position, and sprite scale
 class MySprite(pygame.sprite.Sprite):
@@ -32,6 +34,9 @@ class MySprite(pygame.sprite.Sprite):
         self.image = pygame.transform.scale(image, (scaledWidth, scaledHeight))
         self.rect = self.image.get_rect(center=(x, y))
         
+door = MySprite(book, screen.get_width() / 4, screen.get_height() / 4, 0.03)
+background11 = MySprite(background1, 0, 0, 1)
+
 
 # set/change rooms. All excusive sprites and backgrounds for that level will be generated here
 def roomSet(): 
@@ -39,15 +44,13 @@ def roomSet():
     # don't use the list above, just look at it for reference to figure out the genral room names4
     global roomNum
     if roomNum == 0:
-        screen.fill("purple")
-        door = MySprite(book, screen.get_width() / 4, screen.get_height() / 4, 0.03)
-        screen.blit(door.image, door.rect)
-
         if pygame.sprite.collide_rect(door,  player):
             roomNum = 1
-
+        screen.blit(background11.image, (0, 0))
+        screen.blit(door.image, door.rect)
     if roomNum == 1:
         screen.fill("green")
+    screen.blit(text, (screen.get_width() / 2, 20))
 
 player = MySprite(playerImage, screen.get_width() / 2, screen.get_height() / 2, 0.2)
 
@@ -55,6 +58,11 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
+
+    font = pygame.font.SysFont("Arial", 20)
+    #font.set_bold(True)
+    text = font.render(item, True, (255, 255, 255))
+
 
     roomSet()
 
@@ -78,7 +86,7 @@ while running:
 
     pygame.display.flip()
 
-    dt = clock.tick(30) / 1000
+    dt = clock.tick(60) / 1000
 
     if keys[pygame.K_MINUS]:
         running = False
