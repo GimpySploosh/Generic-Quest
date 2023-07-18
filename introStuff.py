@@ -3,8 +3,15 @@
 
 import pygame
 
-SCALE = 1
-playerImage = pygame.image.load("player.png")
+SCALE = 0.7
+playerImage = pygame.image.load("placeholder.png")
+wizardImage = pygame.image.load("wizard.png")
+book = pygame.image.load("book.png")
+grass = pygame.image.load("grass.png")
+knot = pygame.image.load("knot.png")
+socks = pygame.image.load("socks.png")
+titleScreen = pygame.image.load("titleScreen.png")
+
 
 class MySprite(pygame.sprite.Sprite):
     def __init__(self, image, x, y, width, height):
