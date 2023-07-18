@@ -23,7 +23,10 @@ grass = pygame.image.load("grass.png")
 knot = pygame.image.load("knot.png")
 socks = pygame.image.load("socks.png")
 titleScreen = pygame.image.load("titleScreen.png")
-background1 = pygame.image.load("background.png")
+background1 = pygame.image.load("background1.png")
+background2 = pygame.image.load("background2.png")
+background3 = pygame.image.load("background3.gif")
+portal = pygame.image.load("portal.gif")
 
 # sprite class. Set the image for it, xy position, and sprite scale
 class MySprite(pygame.sprite.Sprite):
@@ -34,9 +37,9 @@ class MySprite(pygame.sprite.Sprite):
         self.image = pygame.transform.scale(image, (scaledWidth, scaledHeight))
         self.rect = self.image.get_rect(center=(x, y))
         
-door = MySprite(book, screen.get_width() / 4, screen.get_height() / 4, 0.03)
 background1 = MySprite(background1, 0, 0, 1)
-
+background2 = MySprite(background2, 0, 0, 1)
+background3 = MySprite(background3, 0, 0, 1)
 
 # set/change rooms. All excusive sprites and backgrounds for that level will be generated here
 def roomSet(): 
@@ -44,12 +47,22 @@ def roomSet():
     # don't use the list above, just look at it for reference to figure out the genral room names4
     global roomNum
     if roomNum == 0:
+        door = MySprite(portal, 250, 240, 2.5)
+        door1 = MySprite(portal, 620, 10, 2.5)
         if pygame.sprite.collide_rect(door,  player):
             roomNum = 1
+        if pygame.sprite.collide_rect(door1,  player):
+            roomNum = 2
         screen.blit(background1.image, (0, 0))
         screen.blit(door.image, door.rect)
+        screen.blit(door1.image, door1.rect)
     if roomNum == 1:
-        screen.fill("green")
+        screen.blit(background2.image, (0, 0))
+    if roomNum == 2:
+        screen.blit(background3.image, (0, 0))
+        door = MySprite(portal, 250, 240, 2.5)
+        if pygame.sprite.collide_rect(door,  player):
+            roomNum = 0
     screen.blit(text, (screen.get_width() / 2, 20))
 
 player = MySprite(playerImage, screen.get_width() / 2, screen.get_height() / 2, 0.2)
