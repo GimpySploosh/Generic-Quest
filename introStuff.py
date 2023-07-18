@@ -7,12 +7,13 @@ SCALE = 0.7
 
 # pygame setup
 pygame.init()
-screen = pygame.display.set_mode((1280 * SCALE, 720 * SCALE))
+screen = pygame.display.set_mode((1280 * SCALE, 720 * SCALE)) # aspect ratio: 16:9.
+# when working in Piskel, you can do 640x360
 clock = pygame.time.Clock()
 running = True
 dt = 0
 
-roomNum = 0# lowest room number is 0
+roomNum = 0 # lowest room number is 0
 
 playerImage = pygame.image.load("placeholder.png")
 wizardImage = pygame.image.load("wizard.png")
@@ -22,20 +23,24 @@ knot = pygame.image.load("knot.png")
 socks = pygame.image.load("socks.png")
 titleScreen = pygame.image.load("titleScreen.png")
 
-
+# sprite class. Set the image for it, xy position, and sprite scale
 class MySprite(pygame.sprite.Sprite):
-    def __init__(self, image, x, y, width, height):
+    def __init__(self, image, x, y, spriteScale):
         super().__init__()
-        self.image = pygame.transform.scale(image, (width * SCALE, height * SCALE))
+        scaledWidth = image.get_width() * spriteScale * SCALE
+        scaledHeight = image.get_height() * spriteScale * SCALE
+        self.image = pygame.transform.scale(image, (scaledWidth, scaledHeight))
         self.rect = self.image.get_rect(center=(x, y))
+        
 
+# set/change rooms. All excusive sprites and backgrounds for that level will be generated here
 def roomSet(): 
     # ROOMS = ["start; 0", "roomName; roomNum"]
     # don't use the list above, just look at it for reference to figure out the genral room names4
     global roomNum
     if roomNum == 0:
         screen.fill("purple")
-        door = MySprite(book, screen.get_width() / 4, screen.get_height() / 4, 100, 100)
+        door = MySprite(book, screen.get_width() / 4, screen.get_height() / 4, 0.03)
         screen.blit(door.image, door.rect)
 
         if pygame.sprite.collide_rect(door,  player):
@@ -43,8 +48,8 @@ def roomSet():
 
     if roomNum == 1:
         screen.fill("green")
-        
-player = MySprite(playerImage, screen.get_width() / 2, screen.get_height() / 2, 100, 100)
+
+player = MySprite(playerImage, screen.get_width() / 2, screen.get_height() / 2, 0.2)
 
 while running:
     for event in pygame.event.get():
@@ -53,6 +58,7 @@ while running:
 
     roomSet()
 
+    # movements
     keys = pygame.key.get_pressed()
     if keys[pygame.K_w]:
         player.rect.y -= 300 * dt * SCALE
@@ -63,14 +69,15 @@ while running:
     if keys[pygame.K_d]:
         player.rect.x += 300 * dt * SCALE
 
-    player.rect.centerx = player.rect.x + player.rect.width / 2
-    player.rect.centery = player.rect.y + player.rect.height / 2
+    # idk what this does. Just don't touch it
+    if any(keys):
+        player.rect.centerx = player.rect.x + player.rect.width / 2
+        player.rect.centery = player.rect.y + player.rect.height / 2
 
     screen.blit(player.image, player.rect)
 
     pygame.display.flip()
 
     dt = clock.tick(30) / 1000
-    pygame.display.set_caption(str(roomNum))
 
 pygame.quit()
