@@ -12,7 +12,7 @@ clock = pygame.time.Clock()
 running = True
 dt = 0
 
-roomNum = 0 # lowest room number is 0
+roomNum = 0# lowest room number is 0
 
 playerImage = pygame.image.load("placeholder.png")
 wizardImage = pygame.image.load("wizard.png")
@@ -30,12 +30,20 @@ class MySprite(pygame.sprite.Sprite):
         self.rect = self.image.get_rect(center=(x, y))
 
 def roomSet(): 
-    # ROOMS = ["start; 0", "roomName; roomNum"] 
-    # don't use the list above, just look at it for reference to figure out the genral room names
+    # ROOMS = ["start; 0", "roomName; roomNum"]
+    # don't use the list above, just look at it for reference to figure out the genral room names4
+    global roomNum
     if roomNum == 0:
         screen.fill("purple")
-        
+        door = MySprite(book, screen.get_width() / 4, screen.get_height() / 4, 100, 100)
+        screen.blit(door.image, door.rect)
 
+        if pygame.sprite.collide_rect(door,  player):
+            roomNum = 1
+
+    if roomNum == 1:
+        screen.fill("green")
+        
 player = MySprite(playerImage, screen.get_width() / 2, screen.get_height() / 2, 100, 100)
 
 while running:
@@ -63,5 +71,6 @@ while running:
     pygame.display.flip()
 
     dt = clock.tick(30) / 1000
+    pygame.display.set_caption(str(roomNum))
 
 pygame.quit()
