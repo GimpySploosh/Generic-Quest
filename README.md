@@ -1,7 +1,7 @@
 # Generic-Quest
 Generic-Quest is a single player rpg. 
 To play Generic-Quest, run the code under the .py file in your python edditer(like pycharm), and use ASWD to move the character ouround. to start the game, talk to "Wizard" and obtain "quest." This will start you on the first of many Generic-Quest quests. follow all instructions givin to you by "Wizard" and you will be rewared with an "Item" or a "Spell."
-Generic-Quest was created by James Ryan, Jacey Li, Marty Bernstine, Mattias Potenza, (and peolple), and sponsered by Tufts Collage summer programs. 
+Generic-Quest was created by James Ryan, Jacey Li, Marty Bernstine, Mattias Potenza, (and peolple). 
 # The story of Gen-Eric
  Gen Eric was born and raised in the middle class suburbs of Suburbia, a quiet and safe town where nothing much ever happened. Gen had a happy childhood, playing with friends, riding bikes, and going to the local park. Gen was decent at math and pretended to help people with their taxes. Gen dreamed of becoming a tax accountant someday.
  Gen attended Suburbia High School, where Gen was a decent student, but not very popular. Gen had a few close friends, but mostly kept to herself. Gen graduated with a 3.1 GPA, which was enough to get into the mediocre school of Suburbia State University, a nearby college that offered a tax accounting program.
@@ -11,4 +11,4 @@ Gen enrolled in Suburbia University and studied a little to earn a degree in tax
 # What can you do with Generic-Quest?
 While Generic-Quest is an open source game. Parts of our code can be implemented into your designs, but please refrain from using the entirity of our code. For example, you can take out character movement functions, but we would rather you didnt also include the item interaction and/or our peter griffin sprite. Thanks for your cooporation!
 # Gneric-Quest is A work in progress.
-Generic-Quest is currently a work in progress and you can expect to see future updates, potentialy implementing new quests, npcs, and features at some point in th furure.
+Generic-Quest is currently a work in progress and you can expect to see future updates, potentialy implementing new quests, npcs, and features at some point in the furure. Thank you for playing!
