@@ -71,13 +71,16 @@ while running:
 
     # idk what this does. Just don't touch it
     if any(keys):
-        player.rect.centerx = player.rect.x + player.rect.width / 2
-        player.rect.centery = player.rect.y + player.rect.height / 2
+        player.rect.centerx = player.rect.x + player.rect.width / 2 - 1
+        player.rect.centery = player.rect.y + player.rect.height / 2 - 1
 
     screen.blit(player.image, player.rect)
 
     pygame.display.flip()
 
     dt = clock.tick(30) / 1000
+
+    if keys[pygame.K_MINUS]:
+        running = False
 
 pygame.quit()
