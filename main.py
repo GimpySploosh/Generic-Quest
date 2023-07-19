@@ -27,6 +27,9 @@ background1 = pygame.image.load("background1.png")
 background2 = pygame.image.load("background2.png")
 background3 = pygame.image.load("background3.gif")
 portal = pygame.image.load("portal.gif")
+monster1 = pygame.image.load("monster1.png")
+monster2 = pygame.image.load("monster2.gif")
+lockedPortal = pygame.image.load("lockedPortal.gif")
 
 # sprite class. Set the image for it, xy position, and sprite scale
 class MySprite(pygame.sprite.Sprite):
@@ -49,6 +52,7 @@ def roomSet():
     if roomNum == 0:
         door = MySprite(portal, 250, 240, 2.5)
         door1 = MySprite(portal, 620, 10, 2.5)
+        door2 = MySprite(lockedPortal, screen.get_width() // 1.1,  screen.get_height() // 1.1, 2.5)
         if pygame.sprite.collide_rect(door,  player):
             player.rect.y = screen.get_height() // 2
             player.rect.x = screen.get_width() // 2
@@ -60,16 +64,25 @@ def roomSet():
         screen.blit(background1.image, (0, 0))
         screen.blit(door.image, door.rect)
         screen.blit(door1.image, door1.rect)
+        screen.blit(door2.image, door2.rect)
     if roomNum == 1:
         screen.blit(background2.image, (0, 0))
-    if roomNum == 2:
-        screen.blit(background3.image, (0, 0))
-        door = MySprite(portal, 140, screen.get_height() - portal.get_height(), 2.5)
-        screen.blit(door.image, door.rect)
+        door = MySprite(portal, 140, screen.get_heightsa() - portal.get_height(), 2.5)
         if pygame.sprite.collide_rect(door,  player):
             player.rect.y = screen.get_height() // 2
             player.rect.x = screen.get_width() // 2
             roomNum = 0
+        screen.blit(door.image, door.rect)
+    if roomNum == 2:
+        screen.blit(background3.image, (0, 0))
+        door = MySprite(portal, 140, screen.get_height() - portal.get_height(), 2.5)
+        monster = MySprite(monster2, screen.get_width() // 1.3, screen.get_height() // 2, 2.5)
+        if pygame.sprite.collide_rect(door,  player):
+            player.rect.y = screen.get_height() // 2
+            player.rect.x = screen.get_width() // 2
+            roomNum = 0
+        screen.blit(door.image, door.rect)
+        screen.blit(monster.image, monster.rect)
     screen.blit(text, (screen.get_width() / 2, 20))
 
 player = MySprite(playerImage, screen.get_width() / 2, screen.get_height() / 2, 0.2)
