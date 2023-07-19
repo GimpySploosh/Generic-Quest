@@ -15,7 +15,7 @@ screen = pygame.display.set_mode((1280 * SCALE, 720 * SCALE)) # aspect ratio: 16
 clock = pygame.time.Clock()
 running = True
 dt = 0
-item = "none"
+item = "None"
 locked = True
 whoBattle = "monster2"
 typeList = ["old ", "be ", "help ", "think ", "form ", "plan ", "general ", "off ", "could ", "still ", "fact ", "keep ", "each ", "turn"]
@@ -40,7 +40,7 @@ background4 = pygame.image.load("background4.png")
 background5 = pygame.image.load("background5.png")
 portal = pygame.image.load("portal.gif")
 monster1 = pygame.image.load("monster1.png")
-monster2 = pygame.image.load("monster2.gif")
+monster2 = pygame.image.load("monster2.png")
 lockedPortal = pygame.image.load("lockedPortal.gif")
 
 # sprite class. Set the image for it, xy position, and sprite scale
@@ -138,7 +138,7 @@ def roomSet():
     if roomNum == 2:
         screen.blit(background3.image, (0, 0))
         door = MySprite(portal, 140, screen.get_height() - portal.get_height(), 2.5)
-        monster = MySprite(monster2, screen.get_width() // 1.3, screen.get_height() // 2, 2.5)
+        monster = MySprite(monster2, screen.get_width() // 1.3, screen.get_height() // 2, .7)
         if pygame.sprite.collide_rect(door,  player):
             player.rect.y = screen.get_height() // 1.3
             player.rect.x = screen.get_width() // 2
