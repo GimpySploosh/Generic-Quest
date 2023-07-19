@@ -16,7 +16,7 @@ item = "none"
 
 roomNum = 0 # lowest room number is 0
 
-playerImage = pygame.image.load("placeholder.png")
+playerImage = pygame.image.load("genEric.png")
 wizardImage = pygame.image.load("wizard.png")
 book = pygame.image.load("book.png")
 grass = pygame.image.load("grass.png")
@@ -50,8 +50,12 @@ def roomSet():
         door = MySprite(portal, 250, 240, 2.5)
         door1 = MySprite(portal, 620, 10, 2.5)
         if pygame.sprite.collide_rect(door,  player):
+            player.rect.y = screen.get_height() // 2
+            player.rect.x = screen.get_width() // 2
             roomNum = 1
         if pygame.sprite.collide_rect(door1,  player):
+            player.rect.y = screen.get_height() // 2 + 50
+            player.rect.x = screen.get_width() // 2 - 100
             roomNum = 2
         screen.blit(background1.image, (0, 0))
         screen.blit(door.image, door.rect)
@@ -63,6 +67,8 @@ def roomSet():
         door = MySprite(portal, 140, screen.get_height() - portal.get_height(), 2.5)
         screen.blit(door.image, door.rect)
         if pygame.sprite.collide_rect(door,  player):
+            player.rect.y = screen.get_height() // 2
+            player.rect.x = screen.get_width() // 2
             roomNum = 0
     screen.blit(text, (screen.get_width() / 2, 20))
 
@@ -93,8 +99,8 @@ while running:
 
     # idk what this does. Just don't touch it
     if any(keys):
-        player.rect.centerx = player.rect.x + player.rect.width / 2 - 1
-        player.rect.centery = player.rect.y + player.rect.height / 2 - 1
+        player.rect.centerx = player.rect.x + player.rect.width / 2
+        player.rect.centery = player.rect.y + player.rect.height / 2
 
     screen.blit(player.image, player.rect)
 
