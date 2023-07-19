@@ -162,7 +162,7 @@ while running:
         if whoBattle == "monster1":
             monster = MySprite(monster1, screen.get_width() // 2, 300, 1.3)
         elif whoBattle == "monster2":
-            monster = MySprite(monster2, screen.get_width() // 2, screen.get_height() // 2, 2.5)
+            monster = MySprite(monster2, screen.get_width() // 2, screen.get_height() // 2, .7)
         
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
