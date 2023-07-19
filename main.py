@@ -2,6 +2,9 @@
 # I know most people in Python use snake_case, but deal with it
 
 import pygame
+import random
+import time
+import sys
 
 SCALE = .7
 
@@ -14,6 +17,12 @@ running = True
 dt = 0
 item = "none"
 locked = True
+whoBattle = "monster2"
+typeList = ["old ", "be ", "help ", "think ", "form ", "plan ", "general ", "off ", "could ", "still ", "fact ", "keep ", "each ", "turn "]
+game = False
+type1 = "".join(typeList)
+text_color = pygame.Color('white')
+cursor_color = pygame.Color('white')
 
 roomNum = 0 # lowest room number is 0
 
@@ -28,6 +37,7 @@ background1 = pygame.image.load("background1.png")
 background2 = pygame.image.load("background2.png")
 background3 = pygame.image.load("background3.gif")
 background4 = pygame.image.load("background4.png")
+background5 = pygame.image.load("background5.png")
 portal = pygame.image.load("portal.gif")
 monster1 = pygame.image.load("monster1.png")
 monster2 = pygame.image.load("monster2.gif")
@@ -45,6 +55,39 @@ class MySprite(pygame.sprite.Sprite):
 background1 = MySprite(background1, 0, 0, 1)
 background2 = MySprite(background2, 0, 0, 1)
 background3 = MySprite(background3, 0, 0, 6.5)
+background4 = MySprite(background4, 0, 0, 1)
+background5 = MySprite(background5, 0, 0, .1)
+
+class TextInputField:
+    def __init__(self, x, y, width, height):
+        self.rect = pygame.Rect(x, y, width, height)
+        self.text = ''
+        self.active = False
+
+    def handle_event(self, event):
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            # Check if the mouse click is inside the input field
+            if self.rect.collidepoint(event.pos):
+                self.active = not self.active
+            else:
+                self.active = False
+
+        if event.type == pygame.KEYDOWN and self.active:
+            if event.key == pygame.K_RETURN:  # Optionally, you can handle the Enter key press
+                print("Entered Text:", self.text)
+                self.text = ''
+            elif event.key == pygame.K_BACKSPACE:
+                self.text = self.text[:-1]
+            else:
+                self.text += event.unicode
+
+    def draw(self, surface):
+        pygame.draw.rect(screen, (255, 0, 0), (self.rect.x + 5, self.rect.y + 5, screen.get_width(), 20))
+        surface.blit(font.render(self.text, True, text_color), (self.rect.x + 5, self.rect.y + 5))
+        if self.active:
+            pygame.draw.rect(surface, cursor_color, (self.rect.x + 5 + font.size(self.text)[0], self.rect.y + 5, 2, font.size(self.text)[1]))
+
+text_input = TextInputField(100, 100, 300, 40)  # Adjust the position and size as needed
 
 # set/change rooms. All excusive sprites and backgrounds for that level will be generated here
 def roomSet(): 
@@ -52,6 +95,9 @@ def roomSet():
     # don't use the list above, just look at it for reference to figure out the genral room names4
     global roomNum
     global lockedPortal
+    global whoBattle
+    global typeList
+    global game
     if roomNum == 0:
         door = MySprite(portal, 250, 240, 2.5)
         door1 = MySprite(portal, 620, 10, 2.5)
@@ -77,23 +123,28 @@ def roomSet():
     if roomNum == 1:
         screen.blit(background2.image, (0, 0))
         door = MySprite(portal, 140, screen.get_height() - portal.get_height(), 2.5)
-        if pygame.sprite.collide_rect(door,  player):
-            player.rect.y = screen.get_height() // 2
-            player.rect.x = screen.get_width() // 2
-            roomNum = 0
-        screen.blit(door.image, door.rect)
-    if roomNum == 2:
-        screen.blit(background3.image, (0, 0))
-        door = MySprite(portal, 140, screen.get_height() - portal.get_height(), 2.5)
-        monster = MySprite(monster2, screen.get_width() // 1.3, screen.get_height() // 2, 2.5)
+        monster = MySprite(monster1, screen.get_width() // 1.7, screen.get_height() // 2, 1.3)
         if pygame.sprite.collide_rect(door,  player):
             player.rect.y = screen.get_height() // 2
             player.rect.x = screen.get_width() // 2
             roomNum = 0
         screen.blit(door.image, door.rect)
         screen.blit(monster.image, monster.rect)
+    if roomNum == 2:
+        screen.blit(background3.image, (0, 0))
+        door = MySprite(portal, 140, screen.get_height() - portal.get_height(), 2.5)
+        monster = MySprite(monster2, screen.get_width() // 1.3, screen.get_height() // 2, 2.5)
+        if pygame.sprite.collide_rect(door,  player):
+            player.rect.y = screen.get_height() // 1.3
+            player.rect.x = screen.get_width() // 2
+            roomNum = 0
+        if pygame.sprite.collide_rect(monster, player):
+            roomNum = 3
+        screen.blit(door.image, door.rect)
+        screen.blit(monster.image, monster.rect)
     if roomNum == 3:
-        pass
+        game = True
+        
     if roomNum == 4:
         screen.blit(background4.image(0, 0))
     screen.blit(text, (screen.get_width() / 2, 20))
@@ -101,40 +152,65 @@ def roomSet():
 player = MySprite(playerImage, screen.get_width() / 2, screen.get_height() / 2, 0.2)
 
 while running:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
+    if game == True:
+        screen.blit(background5.image, (0, 0))
+        if whoBattle == "monster1":
+            monster = MySprite(monster1, screen.get_width() // 2, 300, 1.3)
+        elif whoBattle == "monster2":
+            monster = MySprite(monster2, screen.get_width() // 2, screen.get_height() // 2, 2.5)
+        
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+
+            # Pass events to the text input field
+            text_input.handle_event(event)
+        text_input.draw(screen)  # Draw the text input field on the screen
+
+        screen.blit(monster.image, monster.rect)
+
+        pygame.draw.rect(screen, (255, 0, 0), (0, screen.get_height() // 2, screen.get_width(), 20))
+        screen.blit(thingy, (0, screen.get_height() // 2))
+
+        pygame.display.flip()
+        clock.tick(30)
+
+    else:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+
+        font = pygame.font.SysFont("Arial", 20)
+        #font.set_bold(True)
+        text = font.render(item, True, (255, 255, 255))
+        thingy = font.render(type1, True, (255, 255, 255))
+
+        roomSet()
+
+        # movements
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_w]:
+            player.rect.y -= 300 * dt * SCALE
+        if keys[pygame.K_s]:
+            player.rect.y += 300 * dt * SCALE
+        if keys[pygame.K_a]:
+            player.rect.x -= 300 * dt * SCALE
+        if keys[pygame.K_d]:
+            player.rect.x += 300 * dt * SCALE
+
+        # idk what this does. Just don't touch it
+        if any(keys):
+            player.rect.centerx = player.rect.x + player.rect.width / 2
+            player.rect.centery = player.rect.y + player.rect.height / 2
+
+        screen.blit(player.image, player.rect)
+
+        pygame.display.flip()
+
+        dt = clock.tick(60) / 1000
+
+        if keys[pygame.K_MINUS]:
             running = False
-
-    font = pygame.font.SysFont("Arial", 20)
-    #font.set_bold(True)
-    text = font.render(item, True, (255, 255, 255))
-
-
-    roomSet()
-
-    # movements
-    keys = pygame.key.get_pressed()
-    if keys[pygame.K_w]:
-        player.rect.y -= 300 * dt * SCALE
-    if keys[pygame.K_s]:
-        player.rect.y += 300 * dt * SCALE
-    if keys[pygame.K_a]:
-        player.rect.x -= 300 * dt * SCALE
-    if keys[pygame.K_d]:
-        player.rect.x += 300 * dt * SCALE
-
-    # idk what this does. Just don't touch it
-    if any(keys):
-        player.rect.centerx = player.rect.x + player.rect.width / 2
-        player.rect.centery = player.rect.y + player.rect.height / 2
-
-    screen.blit(player.image, player.rect)
-
-    pygame.display.flip()
-
-    dt = clock.tick(60) / 1000
-
-    if keys[pygame.K_MINUS]:
-        running = False
 
 pygame.quit()
