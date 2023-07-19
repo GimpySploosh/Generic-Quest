@@ -2,7 +2,7 @@
  Generic-Quest is a single player rpg. Generic-Quest is a gui based program that uses pygame to run. To run the code, copy the program under introStuff.py and move it into your python editor(such as PyCharm). run the program with the editors build in run function or if your using a bash terminal, typ python introStuff.py.
  
  Use ASWD to move the character ouround. to start the game, talk to "Wizard" and obtain "quest." This will start you on the first of many Generic-Quest quests. follow all instructions givin to you by "Wizard" and you will be rewared with an "Item" or a "Spell."
-Generic-Quest was created by James Ryan, Jacey Li, Marty Bernstine, Mattias Potenza, and Will Melanson. 
+Generic-Quest was created by James Ryan, Jacey Li, Marty Bernstine, Mattias Potenza, and Will Melanson at the Tufts Coding Acadamy summer program, 2023.
 # What can you do with Generic-Quest?
 While Generic-Quest is an open source game. Parts of our code can be implemented into your designs, but please refrain from using the entirity of our code. For example, you can take out character movement functions, but we would rather you didnt also include the item interaction and/or our peter griffin sprite. Thanks for your cooporation!
 # The story of Gen-Eric
