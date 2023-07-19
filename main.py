@@ -13,6 +13,7 @@ clock = pygame.time.Clock()
 running = True
 dt = 0
 item = "none"
+locked = True
 
 roomNum = 0 # lowest room number is 0
 
@@ -26,6 +27,7 @@ titleScreen = pygame.image.load("titleScreen.png")
 background1 = pygame.image.load("background1.png")
 background2 = pygame.image.load("background2.png")
 background3 = pygame.image.load("background3.gif")
+background4 = pygame.image.load("background4.png")
 portal = pygame.image.load("portal.gif")
 monster1 = pygame.image.load("monster1.png")
 monster2 = pygame.image.load("monster2.gif")
@@ -49,6 +51,7 @@ def roomSet():
     # ROOMS = ["start; 0", "roomName; roomNum"]
     # don't use the list above, just look at it for reference to figure out the genral room names4
     global roomNum
+    global lockedPortal
     if roomNum == 0:
         door = MySprite(portal, 250, 240, 2.5)
         door1 = MySprite(portal, 620, 10, 2.5)
@@ -61,13 +64,19 @@ def roomSet():
             player.rect.y = screen.get_height() // 2 + 50
             player.rect.x = screen.get_width() // 2 - 100
             roomNum = 2
+        if locked == False:
+            lockedPortal = pygame.image.load("portal.gif")
+            if pygame.sprite.collide_rect(lockedPortal, player):
+                player.rect.y = screen.get_height() // 2
+                player.rect.x = screen.get_width() // 2
+                roomNum = 4
         screen.blit(background1.image, (0, 0))
         screen.blit(door.image, door.rect)
         screen.blit(door1.image, door1.rect)
         screen.blit(door2.image, door2.rect)
     if roomNum == 1:
         screen.blit(background2.image, (0, 0))
-        door = MySprite(portal, 140, screen.get_heightsa() - portal.get_height(), 2.5)
+        door = MySprite(portal, 140, screen.get_height() - portal.get_height(), 2.5)
         if pygame.sprite.collide_rect(door,  player):
             player.rect.y = screen.get_height() // 2
             player.rect.x = screen.get_width() // 2
@@ -83,6 +92,10 @@ def roomSet():
             roomNum = 0
         screen.blit(door.image, door.rect)
         screen.blit(monster.image, monster.rect)
+    if roomNum == 3:
+        pass
+    if roomNum == 4:
+        screen.blit(background4.image(0, 0))
     screen.blit(text, (screen.get_width() / 2, 20))
 
 player = MySprite(playerImage, screen.get_width() / 2, screen.get_height() / 2, 0.2)
