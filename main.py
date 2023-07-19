@@ -18,7 +18,7 @@ dt = 0
 item = "none"
 locked = True
 whoBattle = "monster2"
-typeList = ["old ", "be ", "help ", "think ", "form ", "plan ", "general ", "off ", "could ", "still ", "fact ", "keep ", "each ", "turn "]
+typeList = ["old ", "be ", "help ", "think ", "form ", "plan ", "general ", "off ", "could ", "still ", "fact ", "keep ", "each ", "turn"]
 game = False
 type1 = "".join(typeList)
 text_color = pygame.Color('white')
@@ -74,7 +74,12 @@ class TextInputField:
 
         if event.type == pygame.KEYDOWN and self.active:
             if event.key == pygame.K_RETURN:  # Optionally, you can handle the Enter key press
-                print("Entered Text:", self.text)
+                if type1 == self.text:
+                    print("yep")
+                else:
+                    print("nope")
+                    print(type1)
+                    print(self.text)
                 self.text = ''
             elif event.key == pygame.K_BACKSPACE:
                 self.text = self.text[:-1]
