@@ -17,12 +17,14 @@ running = True
 dt = 0
 item = "None"
 locked = True
-whoBattle = "monster2"
+whoBattle = ""
 typeList = ["old ", "be ", "help ", "think ", "form ", "plan ", "general ", "off ", "could ", "still ", "fact ", "keep ", "each ", "turn"]
 game = False
 type1 = "".join(typeList)
 text_color = pygame.Color('white')
 cursor_color = pygame.Color('white')
+monster1Killed = False
+monster2Killed = False
 
 roomNum = 0 # lowest room number is 0
 
@@ -75,7 +77,18 @@ class TextInputField:
         if event.type == pygame.KEYDOWN and self.active:
             if event.key == pygame.K_RETURN:  # Optionally, you can handle the Enter key press
                 if type1 == self.text:
+                    global roomNum
+                    global game
+                    global monster1Killed
+                    global monster2Killed
+                    if whoBattle == "monster1":
+                        monster1Killed = True
+                    elif whoBattle == "monster2":
+                        monster2Killed = True
                     print("yep")
+                    game = False
+                    roomNum = 0
+                    roomSet()
                 else:
                     print("nope")
                     print(type1)
@@ -109,7 +122,7 @@ def roomSet():
         door2 = MySprite(lockedPortal, screen.get_width() // 1.1,  screen.get_height() // 1.1, 2.5)
         if pygame.sprite.collide_rect(door,  player):
             player.rect.y = screen.get_height() // 2
-            player.rect.x = screen.get_width() // 2
+            player.rect.x = screen.get_width() // 3
             roomNum = 1
         if pygame.sprite.collide_rect(door1,  player):
             player.rect.y = screen.get_height() // 2 + 50
@@ -133,17 +146,25 @@ def roomSet():
             player.rect.y = screen.get_height() // 2
             player.rect.x = screen.get_width() // 2
             roomNum = 0
+        if pygame.sprite.collide_rect(monster, player):
+            whoBattle = "monster1"
+            roomNum = 3
         screen.blit(door.image, door.rect)
-        screen.blit(monster.image, monster.rect)
+        if monster1Killed == False:
+            screen.blit(monster.image, monster.rect)
     if roomNum == 2:
         screen.blit(background3.image, (0, 0))
+        if monster2Killed == False:
+            monster = MySprite(monster2, screen.get_width() // 1.3, screen.get_height() // 2, .7)
+        else:
+            monster = MySprite(book, screen.get_width() // 1.3, screen.get_height() // 2, .02)
         door = MySprite(portal, 140, screen.get_height() - portal.get_height(), 2.5)
-        monster = MySprite(monster2, screen.get_width() // 1.3, screen.get_height() // 2, .7)
         if pygame.sprite.collide_rect(door,  player):
             player.rect.y = screen.get_height() // 1.3
             player.rect.x = screen.get_width() // 2
             roomNum = 0
         if pygame.sprite.collide_rect(monster, player):
+            whoBattle = "monster2"
             roomNum = 3
         screen.blit(door.image, door.rect)
         screen.blit(monster.image, monster.rect)
