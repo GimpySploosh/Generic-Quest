@@ -75,7 +75,8 @@ class TextInputField:
                 self.active = False
 
         if event.type == pygame.KEYDOWN and self.active:
-            if event.key == pygame.K_RETURN:  # Optionally, you can handle the Enter key press
+            if event.key == pygame.K_RETURN: 
+                time_elapsed = time.time() - start_time
                 if type1 == self.text:
                     global roomNum
                     global game
@@ -86,6 +87,8 @@ class TextInputField:
                     elif whoBattle == "monster2":
                         monster2Killed = True
                     print("yep")
+                    wpm = 14/float(time_elapsed / 100)
+                    print(str(wpm))
                     game = False
                     roomNum = 0
                     roomSet()
@@ -116,6 +119,7 @@ def roomSet():
     global whoBattle
     global typeList
     global game
+    global start_time
     if roomNum == 0:
         door = MySprite(portal, 250, 240, 2.5)
         door1 = MySprite(portal, 620, 10, 2.5)
@@ -171,6 +175,7 @@ def roomSet():
         screen.blit(door.image, door.rect)
         screen.blit(monster.image, monster.rect)
     if roomNum == 3:
+        start_time = time.time()
         game = True
         
     if roomNum == 4:
@@ -210,7 +215,6 @@ while running:
                 running = False
 
         font = pygame.font.SysFont("Arial", 20)
-        #font.set_bold(True)
         text = font.render(item, True, (255, 255, 255))
         thingy = font.render(type1, True, (255, 255, 255))
 
