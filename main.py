@@ -90,6 +90,7 @@ class TextInputField:
 
         if event.type == pygame.KEYDOWN and self.active:
             if event.key == pygame.K_RETURN: 
+                global type1
                 time_elapsed = time.time() - start_time
                 if type1 == self.text:
                     global roomNum
@@ -98,6 +99,7 @@ class TextInputField:
                     global monster2Killed
                     global monster3Killed
                     global wpm
+                    global typeList
                     
                     global spawnSocks
                     global spawnKey
@@ -110,6 +112,7 @@ class TextInputField:
                         if wpm >= 45:
                             monster1Killed = True
                             spawnSocks = True
+                            type1 = "moonlight into charm magic winds be about who power play will by cast were"
                             game = False
                             roomNum = 0
                             roomSet()
@@ -122,6 +125,7 @@ class TextInputField:
                         if wpm >= 55:
                             monster2Killed = True
                             spawnKey = True
+                            type1 = "glow by moon inside green water if into swirl waves dance magic it ripple"
                             game = False
                             roomNum = 0
                             roomSet()
