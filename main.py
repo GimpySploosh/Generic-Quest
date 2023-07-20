@@ -17,7 +17,9 @@ running = True
 dt = 0
 item = "None"
 wpm = "N/A"
-locked = False
+winLocked = True
+locked1 = True
+win = True
 whoBattle = ""
 typeList = ["old ", "be ", "help ", "think ", "form ", "plan ", "general ", "off ", "could ", "still ", "fact ", "keep ", "each ", "turn"]
 game = False
@@ -42,11 +44,14 @@ background2 = pygame.image.load("background2.png")
 background3 = pygame.image.load("background3.gif")
 background4 = pygame.image.load("background4.png")
 background5 = pygame.image.load("background5.png")
+background6 = pygame.image.load("background6.png")
 portal = pygame.image.load("portal.gif")
+lockedPortal = pygame.image.load("lockedPortal.gif")
+lockedPortal1 = pygame.image.load("lockedPortal.gif")
+winPortal = pygame.image.load("winPortal.gif")
 monster1 = pygame.image.load("monster1.png")
 monster2 = pygame.image.load("monster2.png")
 monster3 = pygame.image.load("monster3.gif")
-lockedPortal = pygame.image.load("lockedPortal.gif")
 
 # sprite class. Set the image for it, xy position, and sprite scale
 class MySprite(pygame.sprite.Sprite):
@@ -62,6 +67,7 @@ background2 = MySprite(background2, 0, 0, 1)
 background3 = MySprite(background3, 0, 0, 6.5)
 background4 = MySprite(background4, 0, 0, 2)
 background5 = MySprite(background5, 0, 0, .1)
+background6 = MySprite(background6, 0, 0, .18)
 
 class TextInputField:
     def __init__(self, x, y, width, height):
@@ -117,9 +123,8 @@ class TextInputField:
                     elif whoBattle == "monster3":
                         if wpm >= 75:
                             monster3Killed = True
-                            win = True
                             game = False
-                            roomNum = 0
+                            roomNum = "win"
                             roomSet()
                         else:
                             monster3Killed = False
@@ -150,33 +155,45 @@ def roomSet():
     # don't use the list above, just look at it for reference to figure out the genral room names4
     global roomNum
     global lockedPortal
+    global lockedPortal1
     global whoBattle
     global typeList
     global game
     global start_time
     global wpm
+    global win
     if roomNum == 0:
-        door = MySprite(portal, 250, 240, 2.5)
-        door1 = MySprite(portal, 620, 10, 2.5)
-        door2 = MySprite(lockedPortal, screen.get_width() // 1.1,  screen.get_height() // 1.1, 2.5)
-        if pygame.sprite.collide_rect(door,  player):
-            player.rect.y = screen.get_height() // 2
-            player.rect.x = screen.get_width() // 3
-            roomNum = 1
-        if pygame.sprite.collide_rect(door1,  player):
-            player.rect.y = screen.get_height() // 2 + 50
-            player.rect.x = screen.get_width() // 2 - 100
-            roomNum = 2
-        if locked == False:
-            lockedPortal = pygame.image.load("portal.gif")
-            if pygame.sprite.collide_rect(door2, player):
+        screen.blit(background1.image, (0, 0))
+        if win == False:
+            door = MySprite(portal, 250, 240, 2.5)
+            door1 = MySprite(lockedPortal1, 620, 10, 2.5)
+            door2 = MySprite(lockedPortal, screen.get_width() // 1.1,  screen.get_height() // 1.1, 2.5)
+            if pygame.sprite.collide_rect(door,  player):
+                player.rect.y = screen.get_height() // 2
+                player.rect.x = screen.get_width() // 3
+                roomNum = 1
+            if winLocked == False:
+                lockedPortal = pygame.image.load("portal.gif")
+                if pygame.sprite.collide_rect(door2, player):
+                    player.rect.y = screen.get_height() // 2
+                    player.rect.x = screen.get_width() // 2
+                    roomNum = 4
+            if locked1 == False:
+                lockedPortal1 = pygame.image.load("portal.gif")
+                if pygame.sprite.collide_rect(door1, player):
+                    player.rect.y = screen.get_height() // 2 + 50
+                    player.rect.x = screen.get_width() // 2 - 100
+                    roomNum = 2
+            screen.blit(door.image, door.rect)
+            screen.blit(door1.image, door1.rect)
+            screen.blit(door2.image, door2.rect)
+        elif win == True:
+            door = MySprite(winPortal, 250, 240, 2.5)
+            if pygame.sprite.collide_rect(door,  player):
                 player.rect.y = screen.get_height() // 2
                 player.rect.x = screen.get_width() // 2
-                roomNum = 4
-        screen.blit(background1.image, (0, 0))
-        screen.blit(door.image, door.rect)
-        screen.blit(door1.image, door1.rect)
-        screen.blit(door2.image, door2.rect)
+                roomNum = 6
+            screen.blit(door.image, door.rect)
     if roomNum == 1:
         if monster1Killed == False:
             monster = MySprite(monster1, screen.get_width() // 1.7, screen.get_height() // 2.5, 1.3)
@@ -229,6 +246,8 @@ def roomSet():
             roomNum = 3
         screen.blit(door.image, door.rect)
         screen.blit(monster.image, monster.rect)
+    if roomNum == 6:
+        screen.blit(background6.image, (0, 0))
     screen.blit(text, (screen.get_width() / 2, 20))
     screen.blit(wpmDisp, (screen.get_width() / 2, 40))
 
