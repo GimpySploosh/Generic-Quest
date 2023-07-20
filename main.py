@@ -30,12 +30,14 @@ monster1Killed = False
 monster2Killed = False
 monster3Killed = False
 spawnKey = False
+spawnFinalKey = False
 
 roomNum = 0 # lowest room number is 0
 
 playerImage = pygame.image.load("genEric.png")
 wizardImage = pygame.image.load("wizard.png")
 book = pygame.image.load("book.png")
+finalKey = pygame.image.load("finalKey.png")
 grass = pygame.image.load("grass.png")
 knot = pygame.image.load("knot.png")
 socks = pygame.image.load("socks.png")
@@ -99,6 +101,7 @@ class TextInputField:
                     
                     global spawnSocks
                     global spawnKey
+                    global spawnFinalKey
 
                     print("yep")
                     wpm = int(14/float(time_elapsed / 100))
@@ -130,8 +133,9 @@ class TextInputField:
                     elif whoBattle == "monster3":
                         if wpm >= 75:
                             monster3Killed = True
+                            spawnFinalKey = True
                             game = False
-                            roomNum = "win"
+                            roomNum = 0
                             roomSet()
                         else:
                             monster3Killed = False
@@ -173,6 +177,7 @@ def roomSet():
     global locked1
     global winLocked
     global spawnKey
+    global spawnFinalKey
     if roomNum == 0:
         screen.blit(background1.image, (0, 0))
         if win == False:
@@ -199,6 +204,7 @@ def roomSet():
             screen.blit(door1.image, door1.rect)
             screen.blit(door2.image, door2.rect)
         elif win == True:
+            roomNum = 0
             door = MySprite(winPortal, 250, 240, 2.5)
             if pygame.sprite.collide_rect(door,  player):
                 player.rect.y = screen.get_height() // 2
@@ -239,12 +245,13 @@ def roomSet():
         door = MySprite(portal, 140, screen.get_height() - portal.get_height(), 2.5)
 
         if spawnKey == True:
-            visibleItem = MySprite(book, screen.get_width() // 2, 300, 0.3)
-            if pygame.sprite.collide_rect(visibleItem, player):
-                item = "Book"
+            boook = MySprite(book, screen.get_width() // 1.3, screen.get_height() // 2, .06)
+            if pygame.sprite.collide_rect(boook, player):
+                item = "book"
                 winLocked = False
-            elif item != "Book":
-                screen.blit(visibleItem.image, visibleItem.rect)
+                boook = MySprite(portal, 10000, 10000, 0.0003)
+                spawnKey = False
+            screen.blit(boook.image, boook.rect)
             
         if pygame.sprite.collide_rect(door,  player):
             player.rect.y = screen.get_height() // 1.3
@@ -265,7 +272,18 @@ def roomSet():
             monster = MySprite(monster3, screen.get_width() // 1.3, screen.get_height() // 2, 1.5)
         else:
             monster = MySprite(book, screen.get_width() * 1.3, screen.get_height() * 2, .01)
+            roomNum = 4
         door = MySprite(portal, 140, screen.get_height() - portal.get_height(), 2.5)
+
+        if spawnFinalKey == True:
+            finalKeyy = MySprite(finalKey, screen.get_width() // 1.2, screen.get_height() // 2, .04)
+            if pygame.sprite.collide_rect(finalKeyy, player):
+                item = "Final Key"
+                finalKeyy = MySprite(portal, 10000, 10000, 0.0003)
+                spawnFinalKey = False
+                win = True
+            screen.blit(finalKeyy.image, finalKeyy.rect)
+
         if pygame.sprite.collide_rect(door,  player):
             player.rect.y = screen.get_height() // 1.3
             player.rect.x = screen.get_width() // 2
