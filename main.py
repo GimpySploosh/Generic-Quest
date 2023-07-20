@@ -139,25 +139,27 @@ def roomSet():
         screen.blit(door1.image, door1.rect)
         screen.blit(door2.image, door2.rect)
     if roomNum == 1:
+        if monster1Killed == False:
+            monster = MySprite(monster1, screen.get_width() // 1.7, screen.get_height() // 2.5, 1.3)
+        else:
+            monster = MySprite(monster1, screen.get_width() * 2, screen.get_height() * 2, 0.3)
         screen.blit(background2.image, (0, 0))
-        door = MySprite(portal, 140, screen.get_height() - portal.get_height(), 2.5)
-        monster = MySprite(monster1, screen.get_width() // 1.7, screen.get_height() // 2, 1.3)
+        door = MySprite(portal, 200, screen.get_height() // 1.02, 2.5)
         if pygame.sprite.collide_rect(door,  player):
-            player.rect.y = screen.get_height() // 2
+            player.rect.y = screen.get_height() // 1.3
             player.rect.x = screen.get_width() // 2
             roomNum = 0
         if pygame.sprite.collide_rect(monster, player):
             whoBattle = "monster1"
             roomNum = 3
         screen.blit(door.image, door.rect)
-        if monster1Killed == False:
-            screen.blit(monster.image, monster.rect)
+        screen.blit(monster.image, monster.rect)
     if roomNum == 2:
         screen.blit(background3.image, (0, 0))
         if monster2Killed == False:
             monster = MySprite(monster2, screen.get_width() // 1.3, screen.get_height() // 2, .7)
         else:
-            monster = MySprite(book, screen.get_width() // 1.3, screen.get_height() // 2, .02)
+            monster = MySprite(book, screen.get_width() * 1.3, screen.get_height() * 2, .01)
         door = MySprite(portal, 140, screen.get_height() - portal.get_height(), 2.5)
         if pygame.sprite.collide_rect(door,  player):
             player.rect.y = screen.get_height() // 1.3
